@@ -6,15 +6,20 @@
 #         self.right = right
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        # Base case
         if root is None:
             return 0
         
+        # Initialize the sum
         sum_val = 0
-        current = root
+        
+        # if the current node's value is within the range
         if low <= root.val <= high:
             sum_val += root.val
+        # Recursive: left subtree
         if root.val > low:
             sum_val += self.rangeSumBST(root.left, low, high)
+        # Recursive: right subtree
         if root.val < high:
             sum_val += self.rangeSumBST(root.right, low, high)
             
