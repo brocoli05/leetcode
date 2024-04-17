@@ -6,27 +6,53 @@
 #         self.right = right
 class Solution:
     def increasingBST(self, root: TreeNode) -> TreeNode:
-        # create dummy node to track the previous node
-        dummy = TreeNode()
-        self.prev = dummy
-        # in-order traversal
-        self.inorder(root)
-        # return the right child of dummy node
-        return dummy.right
+        ## Method 1) 2 functions
+        def inorder(node):
+            # Base case
+            if not node:
+                return []
+            
+            values = [] # create empty list
+            values.extend(inorder(node.left)) # add left subtree
+            values.append(node.val)
+            values.extend(inorder(node.right)) # add right subtree
+            return values
+            
+        def formTree(node, i):
+            # Base case
+            if i == len(self.values):
+                return 
+            
+            node.right = TreeNode(self.values[i])
+            formTree(node.right, i + 1)
         
-    def inorder(self, node):
-        # Base case
-        if not node:
-            return
+        self.values = inorder(root) # sorted list of node values
+        self.node = TreeNode()
+        formTree(self.node, 0)
+        return self.node.right # return the right child of self.node
         
-        # traversal left subtree
-        self.inorder(node.left)
+        ## Method 2)
+#         # create dummy node to track the previous node
+#         dummy = TreeNode()
+#         self.prev = dummy
+#         # in-order traversal
+#         self.inorder(root)
+#         # return the right child of dummy node
+#         return dummy.right
         
-        # link the node to the next node
-        self.prev.right = node
-        node.left = None
-        self.prev = node
+#     def inorder(self, node):
+#         # Base case
+#         if not node:
+#             return
         
-        # traversal right subtree
-        self.inorder(node.right)
+#         # traversal left subtree
+#         self.inorder(node.left)
+        
+#         # link the node to the next node
+#         self.prev.right = node
+#         node.left = None
+#         self.prev = node
+        
+#         # traversal right subtree
+#         self.inorder(node.right)
         
